@@ -12,19 +12,16 @@ const common = require('./webpack.common');
 const prodConfig = merge(common, {
   target: 'web',
   mode: 'production',
+  output: {
+    publicPath: 'http://server', // 由于是单页面，最好是决定地址而不是相对地址， 根地址时可以写作 /，带有文件夹，要加上文件夹前缀
+    // refer to https://webpack.js.org/configuration/output/#outputpublicpath
+  },
   optimization: {
     runtimeChunk: 'single',
     minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
-    // splitChunks: {
-    //   cacheGroups: {
-    //     styles: {
-    //       name: 'styles',
-    //       test: /\.css$/,
-    //       chunks: 'all',
-    //       enforce: true,
-    //     },
-    //   },
-    // },
+    splitChunks: {
+      cacheGroups: {},
+    },
   },
   module: {
     rules: [
