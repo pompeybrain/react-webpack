@@ -2,18 +2,25 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
+const lessToJs = require('less-vars-to-js');
+const fs = require('fs');
 
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
+
+// Read the less file in as string
+const themeLess = fs.readFileSync(path.resolve(__dirname, '../src/assets/styles/custom-antd-theme.less'), 'utf8');
+// Pass in file contents
+const themeVars = lessToJs(themeLess, { resolveVariables: true, stripPrefix: true });
 
 const prodConfig = merge(common, {
   target: 'web',
   mode: 'production',
   output: {
-    publicPath: 'http://server', // 由于是单页面，最好是决定地址而不是相对地址， 根地址时可以写作 /，带有文件夹，要加上文件夹前缀
+    publicPath: '/', // 由于是单页面，最好是决定地址而不是相对地址， 根地址时可以写作 /，部署在文件夹内，要加上文件夹前缀
     // refer to https://webpack.js.org/configuration/output/#outputpublicpath
   },
   optimization: {
@@ -26,24 +33,20 @@ const prodConfig = merge(common, {
   module: {
     rules: [
       {
-        test: /\.(le|c)ss$/,
+        test: /\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-            },
-          },
+          'css-loader',
           {
             loader: 'less-loader',
             options: {
+              sourceMap: true,
               lessOptions: {
+                modifyVars: themeVars,
                 javascriptEnabled: true,
               },
             },
           },
-          // 'postcss-loader',
         ],
       },
     ],

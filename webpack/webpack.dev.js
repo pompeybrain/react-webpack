@@ -2,6 +2,15 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 const webpack = require('webpack');
+const path = require('path');
+const lessToJs = require('less-vars-to-js');
+const fs = require('fs');
+
+// Read the less file in as string
+const themeLess = fs.readFileSync(path.resolve(__dirname, '../src/assets/styles/custom-antd.less'), 'utf8');
+// Pass in file contents
+const themeVars = lessToJs(themeLess, { resolveVariables: true, stripPrefix: true });
+
 module.exports = merge(common, {
   target: 'web',
   output: {
@@ -19,25 +28,27 @@ module.exports = merge(common, {
     noInfo: true,
     historyApiFallback: true,
     proxy: {
-      '/nouse': {
-        target: 'http://192.168.1.102',
+      '/api': {
+        target: 'http://192.168.1.11:8021',
         // changeOrigin: true,
-        // pathRewrite: { '^': '' },
+        pathRewrite: { '^/api': '' },
       },
     },
   },
-  devtool: 'cheap-source-map',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
-        test: /\.(le|c)ss$/,
+        test: /\.less$/,
         use: [
           'style-loader',
           'css-loader',
           {
             loader: 'less-loader',
             options: {
+              sourceMap: true,
               lessOptions: {
+                modifyVars: themeVars,
                 javascriptEnabled: true,
               },
             },

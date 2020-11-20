@@ -32,7 +32,6 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         include: path.resolve(__dirname, '../src'),
-        // exclude: /node_modules/,
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -48,6 +47,7 @@ module.exports = {
           name: 'static/images/[contenthash].[ext]',
         },
       },
+      
     ],
   },
   plugins: [
