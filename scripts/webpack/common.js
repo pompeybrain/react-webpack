@@ -1,8 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { createLogger } = require('./utils.js');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { createLogger } = require('../utils.js');
 
 /**
  * @type {import("webpack").Configuration }
@@ -14,8 +14,8 @@ const common = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', 'json'],
     alias: {
-      '@': path.resolve(__dirname, '../src'),
-      '@component-styles': path.resolve(__dirname, '../src/assets/styles/component-style'),
+      '@': path.resolve(__dirname, '../../src'),
+      '@component-styles': path.resolve(__dirname, '../../src/assets/styles/component-style'),
     },
     symlinks: false,
   },
@@ -28,36 +28,35 @@ const common = {
           {
             loader: 'ts-loader',
             options: {
-              // transpileOnly: true,
+              transpileOnly: true,
             },
           },
         ],
-        include: path.resolve(__dirname, '../src'),
+        include: path.resolve(__dirname, '../../src'),
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         loader: 'file-loader',
         options: {
-          name: 'static/fonts/[contenthash].[ext]',
+          name: 'static/fonts/[name].[ext]',
         },
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         loader: 'file-loader',
         options: {
-          name: 'static/images/[contenthash].[ext]',
+          name: 'static/images/[name].[ext]',
         },
       },
     ],
   },
   plugins: [
-    // new ForkTsCheckerWebpackPlugin({
-    //   logger: { infrastructure: 'silent', issues: createLogger('forkts'), devServer: false },
-    // }), // 31.57s
+    new ForkTsCheckerWebpackPlugin({
+      logger: { infrastructure: 'silent', issues: createLogger('forkts'), devServer: false },
+    }), // 31.57s
     new CopyPlugin({
       patterns: [{ from: 'public', to: 'static' }],
     }),
-    // has warning for DEP_WEBPACK_COMPILATION_ASSETS
     new HtmlWebpackPlugin({
       title: 'index',
       template: 'src/index.html',

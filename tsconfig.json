@@ -6,6 +6,7 @@
     "lib": ["dom", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "checkJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -20,5 +21,5 @@
       "@component-styles/*": ["./src/assets/styles/component-style/*"]
     }
   },
-  "include": ["src", "typings.d.ts"]
+  "include": ["src", "typings.d.ts", "scripts/webpack/types.d.ts"]
 }
