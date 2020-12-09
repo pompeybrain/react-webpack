@@ -1,7 +1,7 @@
 import { Layout, Spin } from 'antd';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Home from '../home/home';
+import Home from '../home/Home';
 import AppHeader from './AppHeader';
 
 interface authProps {

@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "esnext",
+    "module": "esnext",
     "lib": ["dom", "esnext"],
-    "baseUrl": ".",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,8 +14,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "jsx": "react",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@component-styles/*": ["./src/assets/styles/component-style/*"]
     }
   },
   "include": ["src", "typings.d.ts"]

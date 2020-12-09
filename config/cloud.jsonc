@@ -1,0 +1,23 @@
+// production cloud 配置文件
+// 前端项目部署在 /cloud文件夹内
+{
+  "ServerBase": "/cloud/",
+  "ASSET_PATH": "/cloud/",
+  "ReverseProxy": false,
+  "DefaultServer": "http://192.168.1.11:8022",
+  "ApiServers": {
+    "agent": "http://192.168.1.11:8022",
+    "assign": "http://192.168.1.11:8022",
+    "firmware": "http://192.168.1.11:8022",
+    "cloud_storage": "http://192.168.1.15:8051"
+  }
+}
+
+/**
+* nginx config snippet
+location /cloud {
+  alias   /home/app/cloud;
+  index  index.html index.html;
+  try_files $uri $uri/ /cloud/index.html;
+}
+*/

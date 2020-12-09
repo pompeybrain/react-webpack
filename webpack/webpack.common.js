@@ -1,36 +1,37 @@
-// @ts-nocheck
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackBar = require('webpackbar');
 const CopyPlugin = require('copy-webpack-plugin');
+// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { createLogger } = require('./utils.js');
 
-module.exports = {
+/**
+ * @type {import("webpack").Configuration }
+ */
+const common = {
   entry: {
     app: './src/index.tsx',
-  },
-  output: {
-    filename: 'static/js/[name].js',
-    chunkFilename: 'static/js/[name].js',
-    path: path.resolve(__dirname, '../dist'),
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', 'json'],
     alias: {
       '@': path.resolve(__dirname, '../src'),
+      '@component-styles': path.resolve(__dirname, '../src/assets/styles/component-style'),
     },
+    symlinks: false,
   },
   module: {
     rules: [
-      {
-        test: /\.m?js/,
-        resolve: {
-          fullySpecified: false,
-        },
-      },
       // https://github.com/TypeStrong/ts-loader
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              // transpileOnly: true,
+            },
+          },
+        ],
         include: path.resolve(__dirname, '../src'),
       },
       {
@@ -47,14 +48,15 @@ module.exports = {
           name: 'static/images/[contenthash].[ext]',
         },
       },
-      
     ],
   },
   plugins: [
+    // new ForkTsCheckerWebpackPlugin({
+    //   logger: { infrastructure: 'silent', issues: createLogger('forkts'), devServer: false },
+    // }), // 31.57s
     new CopyPlugin({
       patterns: [{ from: 'public', to: 'static' }],
     }),
-    new WebpackBar(),
     // has warning for DEP_WEBPACK_COMPILATION_ASSETS
     new HtmlWebpackPlugin({
       title: 'index',
@@ -62,3 +64,4 @@ module.exports = {
     }),
   ],
 };
+module.exports = common;

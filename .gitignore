@@ -23,3 +23,6 @@ yarn-error.log
 
 .idea
 .vscode
+
+# project develop config file
+config/development.jsonc

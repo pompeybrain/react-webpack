@@ -36,7 +36,7 @@ function removeLocal(key: string) {
  * 返回promise包装的setTimeout，适用于 async await
  * @param ms 传入setTimeout的毫秒数，
  */
-function waitTime(ms: number) {
+function waitTime(ms: number): Promise<void> {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();

@@ -10,7 +10,7 @@ https://typedoc.org/guides/doccomments/
 
 业务对象，或者代码库的一些数据模型定义，需要加上一些说明注释
 注释的格式有一定要求，以便编辑器提供代码提示
-比如下面的 request.ts 中的 ServerResponse 的定义：
+比如下面的 service/response.ts 中的 ServerResponse 的定义：
 
 ```ts
 /**
@@ -35,3 +35,12 @@ interface ServerResponse {
   success: boolean;
 }
 ```
+
+## 命名规范
+
+文件夹使用小写加连字符如： account user-device
+
+包括页面组件和共用组件
+组件的命名因为大写字母开头如：Account
+
+组件的样式文件使用小写加连字符格式如：org-tree.less
