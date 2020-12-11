@@ -52,7 +52,6 @@ module.exports = merge(common, {
     overlay: true,
     historyApiFallback: true,
     proxy: proxyMap,
-    // quiet: true,
     clientLogLevel: 'none',
   },
   devtool: 'eval-source-map',

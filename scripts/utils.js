@@ -59,10 +59,9 @@ function generateProxyMap(ApiServers, DefaultServer) {
    */
   let map = {};
   services.forEach(serviceName => {
-    map[`/${serviceName}`] = ApiServers[serviceName];
+    map[`/${serviceName}`] = { target: ApiServers[serviceName], logLevel: 'silent' };
   });
-  map['/api'] = DefaultServer;
-  // { target: DefaultServer };
+  map['/api'] = { target: DefaultServer, logLevel: 'silent' };
   return map;
 }
 /**

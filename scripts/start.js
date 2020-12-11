@@ -30,6 +30,7 @@ function infoSuccess() {
 }
 
 function outputWarnings(warnings) {
+  clearInterval(compilingTimer);
   // console.log(warnings);
 }
 
@@ -37,9 +38,11 @@ function outputWarnings(warnings) {
  * @param errors {import("./types").WebpackCompileError[]}
  */
 function outputErrors(errors) {
+  clearInterval(compilingTimer);
   clearConsole();
+  console.log(chalk.redBright('Compile Failed'));
   errors.forEach(compilerError => {
-    console.log(chalk.redBright('ERROR in ' + compilerError.moduleName));
+    console.log(chalk.red('ERROR in ' + compilerError.moduleName));
     console.log(compilerError.message);
   });
 }
@@ -87,7 +90,7 @@ try {
   const devServer = new WebpackDevServer(compiler, devServerOptions);
   devServer.listen(devServerOptions.port || 3000, err => {
     if (!err) {
-      console.info = OriginalInfo;
+      // console.info = OriginalInfo;
       infoSuccess();
     } else {
       DevLogger.error(err);
